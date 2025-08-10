@@ -11,27 +11,38 @@ import {
   ScrollView,
 } from "react-native";
 import axios from "axios";
-import { loginUser, checkUserExists } from "../db";
-const Login = ({ navigation }) => {
+const Register = ({ navigation }) => {
+  const [username, setUsername] = useState("");
+  const [phoneNumber, setPhoneNumber] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const handleLogin = async () => {
-  if (!email || !password) {
-    Alert.alert("Error", "Please enter email and password");
+ const handleRegister = async () => {
+  if (!username || !phoneNumber || !email || !password) {
+    Alert.alert("Error", "Please fill in all fields.");
     return;
   }
 
   try {
-    const user = await loginUser(email, password);
-    if (user) {
-      Alert.alert("Success", `Welcome ${user.username}`);
-      navigation.navigate("Index");
-    } else {
-      Alert.alert("Invalid", "Incorrect email or password");
+    const res = await axios.get(`http://192.168.1.6:3000/users?email=${email}`);
+    if (res.data.length > 0) {
+      Alert.alert("Error", "User already exists");
+      return;
     }
-  } catch (err) {
-    Alert.alert("Error", "Login failed");
+
+    // POST new user to JSON Server
+    await axios.post("http://192.168.1.6:3000/users", {
+      username,
+      phone: phoneNumber,
+      email,
+      password,
+    });
+
+    Alert.alert("Success", "Registration successful");
+    navigation.navigate("Login");
+  } catch (error) {
+    Alert.alert("Error", "Something went wrong");
+    console.error(error);
   }
 };
 
@@ -45,7 +56,20 @@ const Login = ({ navigation }) => {
         keyboardShouldPersistTaps="handled"
       >
         <View style={styles.container}>
-          <Text style={styles.title}>Login</Text>
+          <Text style={styles.title}>Register</Text>
+          <TextInput
+            style={styles.input}
+            placeholder="Username"
+            value={username}
+            onChangeText={setUsername}
+          />
+          <TextInput
+            style={styles.input}
+            placeholder="Phone Number"
+            value={phoneNumber}
+            onChangeText={setPhoneNumber}
+            keyboardType="phone-pad"
+          />
           <TextInput
             style={styles.input}
             placeholder="Email"
@@ -61,15 +85,15 @@ const Login = ({ navigation }) => {
             onChangeText={setPassword}
             secureTextEntry
           />
-          <TouchableOpacity style={styles.button} onPress={handleLogin}>
-            <Text style={styles.buttonText}>Login</Text>
+          <TouchableOpacity style={styles.button} onPress={handleRegister}>
+            <Text style={styles.buttonText}>Register</Text>
           </TouchableOpacity>
           <TouchableOpacity
-            onPress={() => navigation.navigate("Register")}
+            onPress={() => navigation.navigate("Login")}
             style={{ marginTop: 20 }}
           >
             <Text style={{ color: "#007AFF", textAlign: "center" }}>
-              Don't have an account? Register
+              Already have an account? Login
             </Text>
           </TouchableOpacity>
         </View>
@@ -114,4 +138,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Login;
+export default Register;

@@ -4,8 +4,9 @@ import { SafeAreaProvider } from "react-native-safe-area-context";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
-import Login from "./app/login";
-import Register from "./app/register";
+import Login from "./app/screen/auth/login";
+import Register from "./app/screen/auth/register";
+import ScheduleCreate from "./app/screen/ScheduleCreate";
 import Index from "./app/index";
 import { initDB } from "./db";
 import MainTabs from "./app/MainTabs";
@@ -35,6 +36,11 @@ export default function App() {
             options={{ headerShown: false }}
             name="Index"
             component={MainTabs}
+          />
+           <Stack.Screen
+            name="ScheduleCreate"
+            component={ScheduleCreate}
+            options={{ title: "Add Schedule" }}
           />
         </Stack.Navigator>
       </NavigationContainer>

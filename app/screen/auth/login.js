@@ -10,37 +10,39 @@ import {
   Platform,
   ScrollView,
 } from "react-native";
-import { registerUser } from "../db";
+// import { loginUser, checkUserExists } from "../db";
+import axios from "axios";
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
-const Register = ({ navigation }) => {
-  const [username, setUsername] = useState("");
-  const [phoneNumber, setPhoneNumber] = useState("");
+const Login = ({ navigation }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const handleRegister = () => {
-  if (!username || !phoneNumber || !email || !password) {
-    Alert.alert("Error", "Please fill in all fields.");
+ const handleLogin = async () => {
+  if (!email || !password) {
+    Alert.alert("Error", "Please enter both email and password.");
     return;
   }
 
-  console.log("📥 Trying to register:", username, phoneNumber, email);
+  try {
+    const res = await axios.get(
+      `http://192.168.1.6:3000/users?email=${email}&password=${password}`
+    );
 
-  registerUser(
-    username,
-    phoneNumber,
-    email,
-    password,
-    () => {
-      console.log("✅ Registration success");
-      Alert.alert("Success", "Registration successful");
-      navigation.navigate("Login");
-    },
-    (err) => {
-      console.log("❌ Registration error:", err);
-      Alert.alert("Error", "Could not register user");
+    if (res.data.length > 0) {
+      const user = res.data[0];
+      // Save userId to AsyncStorage here:
+      await AsyncStorage.setItem("userId", String(user.id));
+
+      Alert.alert("Success", `Welcome back, ${user.email}!`);
+      navigation.navigate("Index"); // or your Home screen route name
+    } else {
+      Alert.alert("Error", "Invalid email or password");
     }
-  );
+  } catch (error) {
+    Alert.alert("Error", "Something went wrong");
+    console.error(error);
+  }
 };
 
   return (
@@ -53,20 +55,7 @@ const Register = ({ navigation }) => {
         keyboardShouldPersistTaps="handled"
       >
         <View style={styles.container}>
-          <Text style={styles.title}>Register</Text>
-          <TextInput
-            style={styles.input}
-            placeholder="Username"
-            value={username}
-            onChangeText={setUsername}
-          />
-          <TextInput
-            style={styles.input}
-            placeholder="Phone Number"
-            value={phoneNumber}
-            onChangeText={setPhoneNumber}
-            keyboardType="phone-pad"
-          />
+          <Text style={styles.title}>Login</Text>
           <TextInput
             style={styles.input}
             placeholder="Email"
@@ -82,15 +71,15 @@ const Register = ({ navigation }) => {
             onChangeText={setPassword}
             secureTextEntry
           />
-          <TouchableOpacity style={styles.button} onPress={handleRegister}>
-            <Text style={styles.buttonText}>Register</Text>
+          <TouchableOpacity style={styles.button} onPress={handleLogin}>
+            <Text style={styles.buttonText}>Login</Text>
           </TouchableOpacity>
           <TouchableOpacity
-            onPress={() => navigation.navigate("Login")}
+            onPress={() => navigation.navigate("Register")}
             style={{ marginTop: 20 }}
           >
             <Text style={{ color: "#007AFF", textAlign: "center" }}>
-              Already have an account? Login
+              Don't have an account? Register
             </Text>
           </TouchableOpacity>
         </View>
@@ -135,4 +124,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Register;
+export default Login;

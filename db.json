@@ -6,6 +6,13 @@
       "phone": "09631257",
       "email": "riya@gmail.com",
       "password": "12345678"
+    },
+    {
+      "id": "be94",
+      "username": "Admin",
+      "phone": "09643312",
+      "email": "admin@gmail.com",
+      "password": "123"
     }
   ]
 }
