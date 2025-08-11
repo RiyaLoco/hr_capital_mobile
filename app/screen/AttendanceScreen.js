@@ -21,10 +21,22 @@ export default function AttendanceScreen() {
   const timerRef = useRef(null);
 
   // Load stored attendance records on mount
+  // useEffect(() => {
+  //   AsyncStorage.getItem(STORAGE_KEY).then((data) => {
+  //     if (data) {
+  //       setAttendanceRecords(JSON.parse(data));
+  //     }
+  //   });
+  // }, []);
   useEffect(() => {
     AsyncStorage.getItem(STORAGE_KEY).then((data) => {
       if (data) {
-        setAttendanceRecords(JSON.parse(data));
+        const parsed = JSON.parse(data).map((record) => ({
+          ...record,
+          punchIn: new Date(record.punchIn),
+          punchOut: new Date(record.punchOut),
+        }));
+        setAttendanceRecords(parsed);
       }
     });
   }, []);
@@ -107,14 +119,29 @@ export default function AttendanceScreen() {
   });
 
   // Formatting functions same as before
+  // const formatTime = (date) => {
+  //   if (!date) return "--:-- --";
+  //   return date.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
+  // };
+
+  // const formatDate = (date) => {
+  //   if (!date) return "-- -- ----";
+  //   return date.toLocaleDateString([], {
+  //     day: "2-digit",
+  //     month: "short",
+  //     year: "numeric",
+  //   });
+  // };
   const formatTime = (date) => {
     if (!date) return "--:-- --";
-    return date.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
+    const d = typeof date === "string" ? new Date(date) : date;
+    return d.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
   };
 
   const formatDate = (date) => {
     if (!date) return "-- -- ----";
-    return date.toLocaleDateString([], {
+    const d = typeof date === "string" ? new Date(date) : date;
+    return d.toLocaleDateString([], {
       day: "2-digit",
       month: "short",
       year: "numeric",

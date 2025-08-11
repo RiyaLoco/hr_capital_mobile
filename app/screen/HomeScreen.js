@@ -21,7 +21,7 @@ const quickActions = [
   { id: 'important', title: "Important Tasks", icon: "⭐" },
   { id: 'settings', title: "Settings", icon: "⚙️" },
 ];
-const API_URL = "http://192.168.1.6:3000";
+const API_URL = "http://192.168.100.210:3000";
 
 const renderRightActions = (progress, dragX, onDelete) => {
   const scale = dragX.interpolate({
@@ -43,24 +43,23 @@ const renderRightActions = (progress, dragX, onDelete) => {
 export default function HomeScreen({ navigation }) {
   const [username, setUsername] = useState("");
   const [todaySchedule, setTodaySchedule] = useState([]);
-  const addSchedule = (newSchedule) => {
-    setTodaySchedule((prev) => [newSchedule, ...prev]);
-  };
-  const onAddPress = () => {
-    navigation.navigate("ScheduleCreate", {
-      onSave: handleAddSchedule,
-    });
-  };
-  const handleDelete = (id) => {
-    setTodaySchedule((prev) => prev.filter((item) => item.id !== id));
-  };
-  useEffect(() => {
+ useEffect(() => {
+    const loadSchedules = async () => {
+      try {
+        const storedSchedules = await AsyncStorage.getItem("schedules");
+        if (storedSchedules) {
+          setTodaySchedule(JSON.parse(storedSchedules));
+        }
+      } catch (error) {
+        console.error("Error loading schedules:", error);
+      }
+    };
+
     const loadUserData = async () => {
       try {
         const userId = await AsyncStorage.getItem("userId");
         if (!userId) return;
 
-        // Fetch user from JSON Server by id
         const response = await axios.get(`${API_URL}/users/${userId}`);
         const user = response.data;
 
@@ -72,8 +71,31 @@ export default function HomeScreen({ navigation }) {
       }
     };
 
+    loadSchedules();
     loadUserData();
   }, []);
+
+  // Add schedule and update AsyncStorage
+  const addSchedule = async (newSchedule) => {
+    try {
+      const updatedSchedules = [newSchedule, ...todaySchedule];
+      setTodaySchedule(updatedSchedules);
+      await AsyncStorage.setItem("schedules", JSON.stringify(updatedSchedules));
+    } catch (error) {
+      console.error("Error saving schedule:", error);
+    }
+  };
+
+  // Delete schedule and update AsyncStorage
+  const handleDelete = async (id) => {
+    try {
+      const updatedSchedules = todaySchedule.filter((item) => item.id !== id);
+      setTodaySchedule(updatedSchedules);
+      await AsyncStorage.setItem("schedules", JSON.stringify(updatedSchedules));
+    } catch (error) {
+      console.error("Error deleting schedule:", error);
+    }
+  };
 
   const renderHeader = () => (
     <View style={styles.headerContainer}>

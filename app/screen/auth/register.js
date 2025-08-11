@@ -17,34 +17,41 @@ const Register = ({ navigation }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
- const handleRegister = async () => {
-  if (!username || !phoneNumber || !email || !password) {
-    Alert.alert("Error", "Please fill in all fields.");
-    return;
-  }
-
-  try {
-    const res = await axios.get(`http://192.168.1.6:3000/users?email=${email}`);
-    if (res.data.length > 0) {
-      Alert.alert("Error", "User already exists");
+  const handleRegister = async () => {
+    if (!username || !phoneNumber || !email || !password) {
+      Alert.alert("Error", "Please fill in all fields.");
       return;
     }
 
-    // POST new user to JSON Server
-    await axios.post("http://192.168.1.6:3000/users", {
-      username,
-      phone: phoneNumber,
-      email,
-      password,
-    });
+    if (password.length < 6) {
+      Alert.alert("Error", "Password must be at least 6 characters long.");
+      return;
+    }
 
-    Alert.alert("Success", "Registration successful");
-    navigation.navigate("Login");
-  } catch (error) {
-    Alert.alert("Error", "Something went wrong");
-    console.error(error);
-  }
-};
+    try {
+      const res = await axios.get(
+        `http://192.168.100.210:3000/users?email=${email}`
+      );
+      if (res.data.length > 0) {
+        Alert.alert("Error", "User already exists");
+        return;
+      }
+
+      // POST new user to JSON Server
+      await axios.post("http://192.168.100.210:3000/users", {
+        username,
+        phone: phoneNumber,
+        email,
+        password,
+      });
+
+      Alert.alert("Success", "Registration successful");
+      navigation.navigate("Login");
+    } catch (error) {
+      Alert.alert("Error", "Something went wrong");
+      console.error(error);
+    }
+  };
 
   return (
     <KeyboardAvoidingView

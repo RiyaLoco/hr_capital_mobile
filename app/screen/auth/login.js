@@ -12,38 +12,42 @@ import {
 } from "react-native";
 // import { loginUser, checkUserExists } from "../db";
 import axios from "axios";
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const Login = ({ navigation }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
- const handleLogin = async () => {
-  if (!email || !password) {
-    Alert.alert("Error", "Please enter both email and password.");
-    return;
-  }
-
-  try {
-    const res = await axios.get(
-      `http://192.168.1.6:3000/users?email=${email}&password=${password}`
-    );
-
-    if (res.data.length > 0) {
-      const user = res.data[0];
-      // Save userId to AsyncStorage here:
-      await AsyncStorage.setItem("userId", String(user.id));
-
-      Alert.alert("Success", `Welcome back, ${user.email}!`);
-      navigation.navigate("Index"); // or your Home screen route name
-    } else {
-      Alert.alert("Error", "Invalid email or password");
+  const handleLogin = async () => {
+    if (!email || !password) {
+      Alert.alert("Error", "Please enter both email and password.");
+      return;
     }
-  } catch (error) {
-    Alert.alert("Error", "Something went wrong");
-    console.error(error);
-  }
-};
+    if (password.length < 6) {
+      Alert.alert("Error", "Password must be at least 6 characters long.");
+      return;
+    }
+
+    try {
+      const res = await axios.get(
+        `http://192.168.100.210:3000/users?email=${email}&password=${password}`
+      );
+
+      if (res.data.length > 0) {
+        const user = res.data[0];
+        // Save userId to AsyncStorage here:
+        await AsyncStorage.setItem("userId", String(user.id));
+
+        Alert.alert("Success", `Welcome back, ${user.email}!`);
+        navigation.navigate("Index"); // or your Home screen route name
+      } else {
+        Alert.alert("Error", "Invalid email or password");
+      }
+    } catch (error) {
+      Alert.alert("Error", "Something went wrong");
+      console.error(error);
+    }
+  };
 
   return (
     <KeyboardAvoidingView
