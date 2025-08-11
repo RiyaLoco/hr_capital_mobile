@@ -21,7 +21,7 @@ const quickActions = [
   { id: 'important', title: "Important Tasks", icon: "⭐" },
   { id: 'settings', title: "Settings", icon: "⚙️" },
 ];
-const API_URL = "http://192.168.100.210:3000";
+const API_URL = "http://192.168.1.6:3000";
 
 const renderRightActions = (progress, dragX, onDelete) => {
   const scale = dragX.interpolate({

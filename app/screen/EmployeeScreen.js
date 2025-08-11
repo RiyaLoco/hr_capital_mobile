@@ -861,7 +861,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import axios from "axios";
 import { Ionicons } from "@expo/vector-icons";
 
-const API_URL = "http://192.168.100.210:3000"; // Replace with your server IP if needed
+const API_URL = "http://192.168.1.6:3000"; // Replace with your server IP if needed
 
 export default function EmployeeScreen() {
   const [employees, setEmployees] = useState([]);
