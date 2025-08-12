@@ -14,7 +14,7 @@ Run the following command in your project folder to install all required package
 ```bash
 npm install
 ```
-###2️⃣ Run JSON Server
+2️⃣ Run JSON Server
 ```bash
 json-server --host {your-ip-address} --port 3000 db.json
 ```
