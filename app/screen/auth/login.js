@@ -25,6 +25,10 @@ const Login = ({ navigation }) => {
       Alert.alert("Error", "Please enter both email and password.");
       return;
     }
+    if (!email.includes("@")) {
+      Alert.alert("Error", "Please enter a valid email address.");
+      return;
+    }
     if (password.length < 6) {
       Alert.alert("Error", "Password must be at least 6 characters long.");
       return;
@@ -33,7 +37,7 @@ const Login = ({ navigation }) => {
     setLoading(true);
     try {
       const res = await axios.get(
-        `http://192.168.1.6:3000/users?email=${email}&password=${password}`
+        `http://192.168.100.210:3000/users?email=${email}&password=${password}`
       );
 
       if (res.data.length > 0) {

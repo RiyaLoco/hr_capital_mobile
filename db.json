@@ -5,49 +5,56 @@
       "username": "Riya",
       "phone": "09631257",
       "email": "riya@gmail.com",
-      "password": "12345678"
+      "password": "888888",
+      "profilePicture": null
     },
     {
       "id": "be94",
       "username": "Admin",
       "phone": "09643312",
       "email": "admin@gmail.com",
-      "password": "123123"
+      "password": "123123",
+      "profilePicture": null
     },
     {
       "id": "5b7e",
       "username": "Test",
       "phone": "09161384",
       "email": "test@gmail.com",
-      "password": "88888888"
+      "password": "88888888",
+      "profilePicture": null
     },
     {
       "id": "239c",
       "username": "Test1",
       "phone": "09113548",
       "email": "test1@gmail.com",
-      "password": "123"
+      "password": "123",
+      "profilePicture": null
     },
     {
       "id": "dfd7",
       "username": "Kk",
       "phone": "09646468",
       "email": "kk@gmail.com",
-      "password": "123"
+      "password": "123",
+      "profilePicture": null
     },
     {
       "id": "5aa5",
       "username": "Kk2",
       "phone": "06312884",
       "email": "kk2@gmail.com",
-      "password": "666666"
+      "password": "666666",
+      "profilePicture": null
     },
     {
       "id": "80b0",
       "username": "Kea",
       "phone": "09613578",
       "email": "kea@gmail.com",
-      "password": "00000000"
+      "password": "00000000",
+      "profilePicture": null
     }
   ],
   "employees": [
@@ -59,12 +66,125 @@
       "department": "IT",
       "date": "2025-01-25",
       "address": "Phnom Penh"
+    },
+    {
+      "id": "1754982749029",
+      "fullname": "Khiev Sovan",
+      "employeeId": "E002",
+      "position": "Web developer",
+      "department": "IT",
+      "date": "2025-01-23",
+      "address": "Phnom Penh"
     }
   ],
   "departments": [
     {
       "id": "1754904885908",
       "name": "IT"
+    },
+    {
+      "id": "1754982550459",
+      "name": "Design"
+    },
+    {
+      "id": "1754982605292",
+      "name": "Finance"
+    },
+    {
+      "id": "1754982620228",
+      "name": "Marketing"
+    },
+    {
+      "id": "1754982632675",
+      "name": "Human Resources"
+    },
+    {
+      "id": "1754982644926",
+      "name": "Customer service"
+    },
+    {
+      "id": "1754982649577",
+      "name": "Sales"
+    },
+    {
+      "id": "1754982661894",
+      "name": "Operations management"
+    }
+  ],
+  "attendance": [
+    {
+      "id": "1754981284778",
+      "date": "Tue Aug 12 2025",
+      "punchIn": "2025-08-12T06:48:02.560Z",
+      "punchOut": "2025-08-12T06:48:04.778Z",
+      "durationMs": 2218
+    },
+    {
+      "id": "1754983925521",
+      "date": "Tue Aug 12 2025",
+      "punchIn": "2025-08-12T07:31:58.233Z",
+      "punchOut": "2025-08-12T07:32:05.521Z",
+      "durationMs": 7288
+    },
+    {
+      "id": "1754983947388",
+      "date": "Tue Aug 12 2025",
+      "punchIn": "2025-08-12T07:32:23.588Z",
+      "punchOut": "2025-08-12T07:32:27.388Z",
+      "durationMs": 3800
+    },
+    {
+      "id": "1754985678113",
+      "date": "Tue Aug 12 2025",
+      "punchIn": "2025-08-12T08:01:16.998Z",
+      "punchOut": "2025-08-12T08:01:18.113Z",
+      "durationMs": 1115
+    }
+  ],
+  "timeOffs": [
+    {
+      "id": "1754986273574",
+      "startDate": "2025-08-13T00:00:00.000Z",
+      "endDate": "2025-08-14T00:00:00.000Z",
+      "reason": "Go to Hometown",
+      "status": "Pending"
+    }
+  ],
+  "salaries": [
+    {
+      "id": "1",
+      "userId": "ab71",
+      "amount": 5000,
+      "date": "2025-07-31T00:00:00.000Z",
+      "description": "July Salary"
+    }
+  ],
+  "tasks": [
+    {
+      "id": "1",
+      "userId": "ab71",
+      "title": "Complete project report",
+      "status": "pending",
+      "dueDate": "2025-08-15T00:00:00.000Z"
+    }
+  ],
+  "work_rates": [
+    {
+      "id": "1",
+      "userId": "ab71",
+      "date": "2025-08-01T00:00:00.000Z",
+      "hoursWorked": 8,
+      "tasksCompleted": 3
+    }
+  ],
+  "teams": [
+    {
+      "id": "1",
+      "name": "Development Team",
+      "members": [
+        "ab71",
+        "be94"
+      ]
     }
   ]
 }

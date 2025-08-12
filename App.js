@@ -10,7 +10,11 @@ import ScheduleCreate from "./app/screen/ScheduleCreate";
 import Index from "./app/index";
 import { initDB } from "./db";
 import MainTabs from "./app/MainTabs";
-
+import ProfileScreen from "./app/screen/ProfileScreen";
+import SalaryScreen from "./app/screen/SalaryScreen";
+import TasksScreen from "./app/screen/TasksScreen";
+import WorkRateScreen from "./app/screen/WorkRateScreen";
+import TeamScreen from "./app/screen/TeamScreen";
 const Stack = createNativeStackNavigator();
 
 export default function App() {
@@ -36,6 +40,31 @@ export default function App() {
             options={{ headerShown: false }}
             name="Index"
             component={MainTabs}
+          />
+          <Stack.Screen
+            name="Profile"
+            component={ProfileScreen}
+            options={{ title: "Profile" }}
+          />
+           <Stack.Screen
+            name="Salary"
+            component={SalaryScreen}
+            options={{ title: "Salary" }}
+          />
+          <Stack.Screen
+            name="Tasks"
+            component={TasksScreen}
+            options={{ title: "Tasks" }}
+          />
+          <Stack.Screen
+            name="WorkRate"
+            component={WorkRateScreen}
+            options={{ title: "Work Rate" }}
+          />
+          <Stack.Screen
+            name="Team"
+            component={TeamScreen}
+            options={{ title: "Team" }}
           />
            <Stack.Screen
             name="ScheduleCreate"

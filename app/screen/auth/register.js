@@ -13,7 +13,8 @@ const {
   SafeAreaView,
 } = require("react-native");
 const axios = require("axios");
-const AsyncStorage = require("@react-native-async-storage/async-storage").default;
+const AsyncStorage =
+  require("@react-native-async-storage/async-storage").default;
 const Register = ({ navigation }) => {
   const [username, setUsername] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
@@ -26,7 +27,10 @@ const Register = ({ navigation }) => {
       Alert.alert("Error", "Please fill in all fields.");
       return;
     }
-
+    if (!email.includes("@")) {
+      Alert.alert("Error", "Please enter a valid email address.");
+      return;
+    }
     if (password.length < 6) {
       Alert.alert("Error", "Password must be at least 6 characters long.");
       return;
@@ -34,7 +38,7 @@ const Register = ({ navigation }) => {
 
     try {
       const res = await axios.get(
-        `http://192.168.1.6:3000/users?email=${email}`
+        `http://192.168.100.210:3000/users?email=${email}`
       );
       if (res.data.length > 0) {
         Alert.alert("Error", "User already exists");
@@ -42,7 +46,7 @@ const Register = ({ navigation }) => {
       }
 
       // POST new user to JSON Server
-      await axios.post("http://192.168.1.6:3000/users", {
+      await axios.post("http://192.168.100.210:3000/users", {
         username,
         phone: phoneNumber,
         email,
@@ -62,87 +66,87 @@ const Register = ({ navigation }) => {
   return (
     <SafeAreaView style={styles.safeArea}>
       <KeyboardAvoidingView
-      style={{ flex: 1 }}
-      behavior={Platform.OS === "ios" ? "padding" : "height"}
-    >
-      <ScrollView
-        contentContainerStyle={styles.scrollContainer}
-        keyboardShouldPersistTaps="handled"
+        style={{ flex: 1 }}
+        behavior={Platform.OS === "ios" ? "padding" : "height"}
       >
-        <View style={styles.container}>
-          <Text style={styles.appTitle}>HR Capital</Text>
-          <Text style={styles.subtitle}>Sign up to continue</Text>
-          <View style={styles.inputContainer}>
-            <Text style={styles.label}>Username</Text>
-            <TextInput
-              style={styles.input}
-              placeholder="Enter your username"
-              placeholderTextColor="#c1c1c1ff"
-              value={username}
-              onChangeText={setUsername}
-            />
+        <ScrollView
+          contentContainerStyle={styles.scrollContainer}
+          keyboardShouldPersistTaps="handled"
+        >
+          <View style={styles.container}>
+            <Text style={styles.appTitle}>HR Capital</Text>
+            <Text style={styles.subtitle}>Sign up to continue</Text>
+            <View style={styles.inputContainer}>
+              <Text style={styles.label}>Username</Text>
+              <TextInput
+                style={styles.input}
+                placeholder="Enter your username"
+                placeholderTextColor="#c1c1c1ff"
+                value={username}
+                onChangeText={setUsername}
+              />
+            </View>
+            <View style={styles.inputContainer}>
+              <Text style={styles.label}>Phone Number</Text>
+              <TextInput
+                style={styles.input}
+                placeholder="Enter your phone number"
+                placeholderTextColor="#c1c1c1ff"
+                value={phoneNumber}
+                onChangeText={setPhoneNumber}
+                keyboardType="phone-pad"
+              />
+            </View>
+            <View style={styles.inputContainer}>
+              <Text style={styles.label}>Email Address</Text>
+              <TextInput
+                style={styles.input}
+                placeholder="Enter your email"
+                placeholderTextColor="#c1c1c1ff"
+                value={email}
+                onChangeText={setEmail}
+                autoCapitalize="none"
+                keyboardType="email-address"
+              />
+            </View>
+            <View style={styles.inputContainer}>
+              <Text style={styles.label}>Password</Text>
+              <TextInput
+                style={styles.input}
+                placeholder="Enter your password"
+                placeholderTextColor="#c1c1c1ff"
+                value={password}
+                onChangeText={setPassword}
+                secureTextEntry
+              />
+            </View>
+            <TouchableOpacity
+              style={[styles.button, loading && styles.buttonDisabled]}
+              onPress={handleRegister}
+              disabled={loading}
+            >
+              <Text style={styles.buttonText}>
+                {loading ? "Signing up..." : "Sign Up"}
+              </Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              onPress={() => navigation.navigate("Login")}
+              style={styles.registerLink}
+            >
+              <Text style={styles.registerText}>
+                Already have an account?{" "}
+                <Text style={styles.registerLinkText}>Login</Text>
+              </Text>
+            </TouchableOpacity>
           </View>
-          <View style={styles.inputContainer}>
-            <Text style={styles.label}>Phone Number</Text>
-            <TextInput
-              style={styles.input}
-              placeholder="Enter your phone number"
-              placeholderTextColor="#c1c1c1ff"
-              value={phoneNumber}
-              onChangeText={setPhoneNumber}
-              keyboardType="phone-pad"
-            />
-          </View>
-          <View style={styles.inputContainer}>
-            <Text style={styles.label}>Email Address</Text>
-            <TextInput
-              style={styles.input}
-              placeholder="Enter your email"
-              placeholderTextColor="#c1c1c1ff"
-              value={email}
-              onChangeText={setEmail}
-              autoCapitalize="none"
-              keyboardType="email-address"
-            />
-          </View>
-          <View style={styles.inputContainer}>
-            <Text style={styles.label}>Password</Text>
-            <TextInput
-              style={styles.input}
-              placeholder="Enter your password"
-              placeholderTextColor="#c1c1c1ff"
-              value={password}
-              onChangeText={setPassword}
-              secureTextEntry
-            />
-          </View>
-          <TouchableOpacity
-            style={[styles.button, loading && styles.buttonDisabled]}
-            onPress={handleRegister}
-            disabled={loading}
-          >
-            <Text style={styles.buttonText}>
-              {loading ? "Signing up..." : "Sign Up"}
-            </Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            onPress={() => navigation.navigate("Login")}
-            style={styles.registerLink}
-          >
-            <Text style={styles.registerText}>
-              Already have an account?{" "}
-              <Text style={styles.registerLinkText}>Login</Text>
-            </Text>
-          </TouchableOpacity>
-        </View>
-      </ScrollView>
-    </KeyboardAvoidingView>
+        </ScrollView>
+      </KeyboardAvoidingView>
     </SafeAreaView>
   );
 };
 
 const styles = StyleSheet.create({
-    safeArea: {
+  safeArea: {
     flex: 1,
     backgroundColor: "#F7F7FA",
   },

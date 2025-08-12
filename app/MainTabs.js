@@ -20,7 +20,7 @@ export default function MainTabs() {
 
           return <Ionicons name={iconName} size={size} color={color} />;
         },
-        tabBarActiveTintColor: "#007AFF",
+        tabBarActiveTintColor: "#1E3A8A",
         tabBarInactiveTintColor: "gray",
         headerShown: false,
       })}

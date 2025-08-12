@@ -396,7 +396,6 @@
 //             <Text style={styles.createButtonText}>+ Create New Department</Text>
 //           </TouchableOpacity>
 
-       
 //         </View>
 
 //         {departments.length === 0 ? (
@@ -558,7 +557,6 @@
 //     color: "#777",
 //     textAlign: "center",
 //   },
-
 
 //   employeeCard: {
 //     width: "48%", // take about half with small gap
@@ -856,12 +854,13 @@ import {
   Modal,
   Alert,
   ScrollView,
+  Image
 } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import axios from "axios";
 import { Ionicons } from "@expo/vector-icons";
 
-const API_URL = "http://192.168.1.6:3000"; // Replace with your server IP if needed
+const API_URL = "http://192.168.100.210:3000"; // Replace with your server IP if needed
 
 export default function EmployeeScreen() {
   const [employees, setEmployees] = useState([]);
@@ -922,11 +921,23 @@ export default function EmployeeScreen() {
           console.log("Departments fetched:", departmentsRes.data);
           setEmployees(employeesRes.data);
           setDepartments(departmentsRes.data);
-          await AsyncStorage.setItem("employees", JSON.stringify(employeesRes.data));
-          await AsyncStorage.setItem("departments", JSON.stringify(departmentsRes.data));
+          await AsyncStorage.setItem(
+            "employees",
+            JSON.stringify(employeesRes.data)
+          );
+          await AsyncStorage.setItem(
+            "departments",
+            JSON.stringify(departmentsRes.data)
+          );
         } catch (serverError) {
-          console.error("Failed to fetch from server:", serverError.response?.data || serverError.message);
-          Alert.alert("Error", "Failed to connect to server. Using cached data.");
+          console.error(
+            "Failed to fetch from server:",
+            serverError.response?.data || serverError.message
+          );
+          Alert.alert(
+            "Error",
+            "Failed to connect to server. Using cached data."
+          );
         }
       } catch (error) {
         console.error("Error loading data:", error);
@@ -983,7 +994,10 @@ export default function EmployeeScreen() {
       await AsyncStorage.setItem("employees", JSON.stringify(updatedEmployees));
       setModalVisible(false);
     } catch (error) {
-      console.error("Error adding employee:", error.response?.data || error.message);
+      console.error(
+        "Error adding employee:",
+        error.response?.data || error.message
+      );
       Alert.alert("Error", "Failed to add employee. Please try again.");
     }
   };
@@ -1002,18 +1016,34 @@ export default function EmployeeScreen() {
       return;
     }
 
-    const newDepartment = { id: Date.now().toString(), name: formDepartment.name.trim() };
+    const newDepartment = {
+      id: Date.now().toString(),
+      name: formDepartment.name.trim(),
+    };
 
     try {
-      console.log("Posting department to:", `${API_URL}/departments`, newDepartment);
-      const response = await axios.post(`${API_URL}/departments`, newDepartment);
+      console.log(
+        "Posting department to:",
+        `${API_URL}/departments`,
+        newDepartment
+      );
+      const response = await axios.post(
+        `${API_URL}/departments`,
+        newDepartment
+      );
       console.log("Department added:", response.data);
       const updatedDepartments = [...departments, newDepartment];
       setDepartments(updatedDepartments);
-      await AsyncStorage.setItem("departments", JSON.stringify(updatedDepartments));
+      await AsyncStorage.setItem(
+        "departments",
+        JSON.stringify(updatedDepartments)
+      );
       setModalVisible(false);
     } catch (error) {
-      console.error("Error adding department:", error.response?.data || error.message);
+      console.error(
+        "Error adding department:",
+        error.response?.data || error.message
+      );
       Alert.alert("Error", "Failed to add department. Please try again.");
     }
   };
@@ -1029,10 +1059,19 @@ export default function EmployeeScreen() {
             await axios.delete(`${API_URL}/employees/${id}`);
             const updatedEmployees = employees.filter((e) => e.id !== id);
             setEmployees(updatedEmployees);
-            await AsyncStorage.setItem("employees", JSON.stringify(updatedEmployees));
+            await AsyncStorage.setItem(
+              "employees",
+              JSON.stringify(updatedEmployees)
+            );
           } catch (error) {
-            console.error("Error deleting employee:", error.response?.data || error.message);
-            Alert.alert("Error", "Failed to delete employee. Please try again.");
+            console.error(
+              "Error deleting employee:",
+              error.response?.data || error.message
+            );
+            Alert.alert(
+              "Error",
+              "Failed to delete employee. Please try again."
+            );
           }
         },
         style: "destructive",
@@ -1056,11 +1095,23 @@ export default function EmployeeScreen() {
               e.department === departmentName ? { ...e, department: "" } : e
             );
             setEmployees(updatedEmployees);
-            await AsyncStorage.setItem("departments", JSON.stringify(updatedDepartments));
-            await AsyncStorage.setItem("employees", JSON.stringify(updatedEmployees));
+            await AsyncStorage.setItem(
+              "departments",
+              JSON.stringify(updatedDepartments)
+            );
+            await AsyncStorage.setItem(
+              "employees",
+              JSON.stringify(updatedEmployees)
+            );
           } catch (error) {
-            console.error("Error deleting department:", error.response?.data || error.message);
-            Alert.alert("Error", "Failed to delete department. Please try again.");
+            console.error(
+              "Error deleting department:",
+              error.response?.data || error.message
+            );
+            Alert.alert(
+              "Error",
+              "Failed to delete department. Please try again."
+            );
           }
         },
         style: "destructive",
@@ -1186,7 +1237,9 @@ export default function EmployeeScreen() {
               style={[styles.button, styles.saveButton]}
               onPress={addEmployee}
             >
-              <Text style={[styles.buttonText, styles.saveButtonText]}>Save</Text>
+              <Text style={[styles.buttonText, styles.saveButtonText]}>
+                Save
+              </Text>
             </TouchableOpacity>
           </View>
         </ScrollView>
@@ -1219,7 +1272,9 @@ export default function EmployeeScreen() {
               style={[styles.button, styles.saveButton]}
               onPress={addDepartment}
             >
-              <Text style={[styles.buttonText, styles.saveButtonText]}>Save</Text>
+              <Text style={[styles.buttonText, styles.saveButtonText]}>
+                Save
+              </Text>
             </TouchableOpacity>
           </View>
         </View>
@@ -1385,7 +1440,10 @@ export default function EmployeeScreen() {
         ) : (
           employees.map((emp) => (
             <View key={emp.id} style={styles.summaryEmployeeCard}>
-              <View style={styles.avatarPlaceholder} />
+              <Image
+                source={require("../../assets/profile.jpg")} // or your dynamic image source
+                style={styles.avatarPlaceholder}
+              />
               <Text style={styles.summaryEmployeeName}>{emp.fullname}</Text>
               <Text style={styles.summaryEmployeeRole}>{emp.position}</Text>
             </View>
@@ -1406,7 +1464,7 @@ const styles = StyleSheet.create({
   header: {
     fontSize: 26,
     fontWeight: "700",
-    color: "#1a1a1a",
+    color: "#1E3A8A",
     marginBottom: 24,
     textAlign: "center",
     margin: 20,
@@ -1414,8 +1472,8 @@ const styles = StyleSheet.create({
   header2: {
     fontSize: 22,
     fontWeight: "600",
-    color: "#1a1a1a",
-    
+    color: "#1E3A8A",
+
     marginBottom: 16,
     marginLeft: 20,
   },
@@ -1446,7 +1504,7 @@ const styles = StyleSheet.create({
   summaryNumber: {
     fontSize: 32,
     fontWeight: "700",
-    color: "#007bff",
+    color: "#1E3A8A",
   },
   summaryLabel: {
     fontSize: 16,
@@ -1517,11 +1575,11 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.1,
     shadowRadius: 4,
     elevation: 2,
-    marginRight: 15
+    marginRight: 15,
   },
   backButton: {
     backgroundColor: "#6c757d",
-    marginLeft: 15
+    marginLeft: 15,
   },
   createButtonText: {
     fontSize: 16,
