@@ -6,6 +6,7 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
 import Login from "./app/screen/auth/login";
 import Register from "./app/screen/auth/register";
+// import EmployeeLogin from "./app/screen/auth/EmployeeLogin";
 import ScheduleCreate from "./app/screen/ScheduleCreate";
 import Index from "./app/index";
 import { initDB } from "./db";
@@ -36,6 +37,11 @@ export default function App() {
             component={Register}
             options={{ headerShown: false }}
           />
+           {/* <Stack.Screen
+            name="EmployeeLogin"
+            component={EmployeeLogin}
+            options={{ headerShown: false }}
+          /> */}
           <Stack.Screen
             options={{ headerShown: false }}
             name="Index"

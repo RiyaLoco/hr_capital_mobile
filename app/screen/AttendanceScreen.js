@@ -66,7 +66,7 @@ export default function AttendanceScreen() {
           // Fetch time-off records
           try {
             const timeOffRes = await axios.get(
-              `${API_URL}/timeoffs?userId=${storedUserId}`
+              `${API_URL}/timeOffs?userId=${storedUserId}`
             );
             const timeOffData = timeOffRes.data.map((record) => ({
               ...record,
